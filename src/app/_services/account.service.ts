@@ -17,11 +17,16 @@ export class AccountService {
   currentUser$ = this.currentUserSource.asObservable();
 
 constructor() { }
-login(values: any) {
+login(values: any): Observable<Client> {
   let params = new HttpParams();
     params = params.append('useCookies', true);
-    return this.http.post<Client>(this.baseUrl + 'login', values, {params}).pipe(
-      tap(() => this.signalrService.createHubConnection())
+    return this.http.post<Client>(`${this.baseUrl}/account/login`, values).pipe(
+      map((user: Client) => {
+        if (user) {
+         this.setCurrentUser(user);
+         return user;
+        }
+      })
     )
 }
 

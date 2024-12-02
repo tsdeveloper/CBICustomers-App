@@ -1,10 +1,35 @@
 <div class="row" *ngIf="client">
   <div class="col-4">
-      <h1>Your profile</h1>
+    <h1>Your profile</h1>
   </div>
   <div class="col-8">
-      <!-- <div class="alert alert-info" *ngIf="editForm.dirty">
-          <strong>Information: </strong> You have made changes.  Any unsaved changes will be lost
-      </div> -->
+    <form [formGroup]="registerForm" (ngSubmit)="registerForm?.valid && update()" autocomplete="off">
+      <h2 class="text-center text-primary">Editar Profile</h2>
+      <hr>
+      <div formGroupName="user">
+        <app-text-input label="Nome" formControlName="displayName" />
+        <app-text-input label="Email" formControlName="email" />
+        <app-text-input label="Telefone" formControlName="phone" />
+      </div>
+      <div formGroupName="address">
+        <app-text-input label="Nome" formControlName="name" />
+      </div>
+
+
+      @if (validationErrors) {
+        <div class="row">
+            <ul class="text-danger">
+                @for (error of validationErrors; track $index) {
+                    <li>{{error}}</li>
+                }
+            </ul>
+        </div>
+    }
+
+      <div class="form-group text-center">
+          <button [disabled]='!registerForm.valid' class="btn btn-success mr-2" type="submit">Register</button>
+      </div>
+    </form>
+
   </div>
 </div>
