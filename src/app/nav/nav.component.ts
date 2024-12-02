@@ -1,18 +1,19 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, inject, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/enviroments/environment';
 import { AccountService } from '../_services/account.service';
 import { FormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CommonModule } from '@angular/common';
+import { Client } from '../_models/client';
 
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss'],
-  imports: [CommonModule, FormsModule, BsDropdownModule]
+  imports: [CommonModule, FormsModule, BsDropdownModule, RouterModule]
 })
 export class NavComponent implements OnInit {
   model: any = {};
@@ -21,6 +22,7 @@ export class NavComponent implements OnInit {
   router = inject(Router);
   env = environment.apiUrl;
   loggedIn = false;
+  client: Client;
 
   constructor() {}
 
