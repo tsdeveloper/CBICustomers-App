@@ -1,0 +1,23 @@
+<form [formGroup]="registerForm" (ngSubmit)="registerForm?.valid && register()" autocomplete="off">
+  <h2 class="text-center text-primary">Sign up</h2>
+  <hr>
+
+  <app-text-input label="Nome" formControlName="name" />
+  <app-text-input label="Email" formControlName="email" />
+  <app-text-input label="Senha" type="password" formControlName="password" />
+
+  @if (validationErrors) {
+    <div class="row">
+        <ul class="text-danger">
+            @for (error of validationErrors; track $index) {
+                <li>{{error}}</li>
+            }
+        </ul>
+    </div>
+}
+
+  <div class="form-group text-center">
+      <button [disabled]='!registerForm.valid' class="btn btn-success mr-2" type="submit">Register</button>
+      <button class="btn btn-default mr-2" (click)="cancel()" type="button">Cancel</button>
+  </div>
+</form>
