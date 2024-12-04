@@ -21,15 +21,14 @@ export class AddressItemComponent {
   addressService = inject(AddressService)
 
 
-  remover(codL: number) {
-    this.addressService.delete(codL).subscribe({
+  remover(id: number) {
+    this.addressService.delete(id).subscribe({
       next: () => {
-        this.toastrService.success('Assunto deletado com sucesso!');
+        this.toastrService.success('Endereço deletado com sucesso!');
 
         this.resetFormSubject.emit(false);
       },
       error: (error) => {
-        console.log(error.error.message);
         console.log(error.error.message);
         this.toastrService.error(error.error.message);
       },

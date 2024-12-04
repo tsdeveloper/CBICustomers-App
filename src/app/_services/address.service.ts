@@ -5,12 +5,15 @@ import { Address } from '../_models/address';
 import { Pagination } from '../_models/Pagination';
 import { AddressParams } from '../_models/addressParams';
 import { Observable, of, map } from 'rxjs';
+import { AccountService } from './account.service';
+import { Client } from '../_models/client';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AddressService {
   http = inject(HttpClient)
+  accountService = inject(AccountService)
   baseUrl = environment.apiUrl;
   pagination?: Pagination<Address[]>;
   addressParams = new AddressParams();
@@ -32,10 +35,13 @@ export class AddressService {
 
     let params = new HttpParams();
 
+    const clientAuth = JSON.parse(localStorage.getItem('user')) as Client;
+
     params = params.append('sort', this.addressParams.sort);
+    params = params.append('clientId', clientAuth.id);
     params = params.append('pageIndex', this.addressParams.pageNumber);
     params = params.append('pageSize', this.addressParams.pageSize);
-    console.log(this.addressParams.sort);
+
     if (this.addressParams.search)
       params = params.append('search', this.addressParams.search);
 
@@ -56,13 +62,14 @@ export class AddressService {
   create(values: any) {
     return this.http.post<Address>(`${this.baseUrl}/address`, values).pipe(
       map((address) => {
+        console.log(address)
         return address;
       })
     );
   }
 
   update(value: any) {
-    return this.http.put(`${this.baseUrl}/address/editar/${value.id}`, value);
+    return this.http.put(`${this.baseUrl}/address/editar/`, value);
   }
 
   delete(value: number) {
@@ -77,7 +84,7 @@ export class AddressService {
     return this.addressParams;
   }
 
-  getAddress(id: number, useCache: boolean = false) {
+  getAddress(clientId:string, id: number, useCache: boolean = false) {
     if (useCache) {
       const address = [...this.addressCache.values()].reduce(
         (acc, paginatedResult) => {
@@ -89,6 +96,6 @@ export class AddressService {
       if (Object.keys(address).length !== 0) return of(address);
     }
 
-    return this.http.get<Address>(`${this.baseUrl}/address/details/${id}`);
+    return this.http.get<Address>(`${this.baseUrl}/address/details/${clientId}/${id}`);
   }
 }

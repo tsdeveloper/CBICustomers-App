@@ -21,8 +21,6 @@ export class HomeComponent implements OnInit {
     this.accountService.visibleCancelRegister$.subscribe((value) => {
       this.visibleButton = value;
     });
-
-    console.log(`visibleButton ${this.visibleButton}`)
   }
 
   registerToggle() {

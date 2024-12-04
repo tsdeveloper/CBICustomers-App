@@ -63,15 +63,10 @@ export class AccountEditComponent implements OnInit {
         error: (error) => this.toastrService.error(error),
       });
     }
-
-    console.log(`edit ${JSON.stringify(this.clientEdit)}`);
-
     this.registerForm.patchValue(this.clientEdit);
   }
 
   update() {
-    console.log(this.registerForm.value);
-
     let clientUpdate = this.registerForm.value as Client;
 
     this.accountService.update(clientUpdate).subscribe({

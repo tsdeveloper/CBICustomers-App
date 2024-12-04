@@ -31,18 +31,21 @@ export class AddressEditComponent implements OnInit{
   registerForm = this.fb.group({
     id: [0, Validators.required],
     name: ['', [Validators.required, Validators.maxLength(200)]],
-    clientId: ['1f9bd8a5-11a4-47bf-a855-30ca2843b97b', [Validators.required]],
+    clientId: ['', [Validators.required]],
     zipCode: ['', [Validators.required, Validators.maxLength(8)]],
     city: ['', [Validators.required, Validators.maxLength(150)]],
     state: ['', [Validators.required, Validators.maxLength(2)]],
   });
+
 
   ngOnInit() {
    this.loadAddressByUserAuth()
   }
   loadAddressByUserAuth() {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
-    if (id) this.addressService.getAddress(+id).subscribe({
+    const clientAuth = JSON.parse(localStorage.getItem('user')) as Client;
+
+    if (id) this.addressService.getAddress(clientAuth.id, +id).subscribe({
       next: (address:Address) => {
 
         this.address = address;
@@ -54,10 +57,10 @@ export class AddressEditComponent implements OnInit{
 
 
   update() {
-    this.addressService.create(this.registerForm.value).subscribe({
+    this.addressService.update(this.registerForm.value).subscribe({
       next: (res) => {
         this.toastrService.success("Endereço cadastrado com sucesso!");
-        this.router.navigateByUrl(`/address`);
+        this.router.navigateByUrl(`/addresses`);
       },
       error: (err) => {
         console.error('Ocorreu um erro:', err);

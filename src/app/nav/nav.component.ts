@@ -28,7 +28,6 @@ export class NavComponent {
   login() {
     this.accountService.login(this.model).subscribe({
       next: (res) => {
-        console.log(`user ${JSON.stringify(res)}`);
         this.loggedIn = true;
         this.accountService.setCurrentUserEdit(res);
         this.accountService.setVisibleCancelRegister(false);

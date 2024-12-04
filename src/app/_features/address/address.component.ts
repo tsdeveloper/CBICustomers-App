@@ -40,7 +40,6 @@ constructor() {
 
 }
   ngOnInit() {
-    console.log('Listaddresss');
     this.useCache = false;
     this.getAddresss(this.useCache);
   }
@@ -74,8 +73,6 @@ constructor() {
   }
 
   onReset(useCache: boolean = true) {
-    console.log(`reset ${useCache}`);
-
     if (this.searchTerm) this.searchTerm.nativeElement.value = '';
     this.addressParams = new AddressParams();
     this.addressService.setAddressParams(this.addressParams);
