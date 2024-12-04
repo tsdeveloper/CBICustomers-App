@@ -1,0 +1,58 @@
+<table class="table mb-0 bg-white">
+  <thead class="bg-light">
+    <tr>
+      <th>Id</th>
+      <th>Nome</th>
+      <th>CEP</th>
+      <th>Cidade</th>
+      <th>UF</th>
+      <th>Ação</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let address of addressList">
+      <td>
+        <p class="fw-bold mb-1">{{ address.id }}</p>
+      </td>
+      <td>
+        <div class="d-flex align-items-center">
+          <img
+            src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+            alt=""
+            style="width: 45px; height: 45px"
+            class="rounded-circle"
+          />
+          <div class="ms-3">
+            <p class="fw-bold mb-1">{{ address.name }}</p>
+          </div>
+        </div>
+      </td>
+      <td>
+        <p class="fw-bold mb-1">{{ address.zipCode }}</p>
+      </td>
+      <td>
+        <p class="fw-bold mb-1">{{ address.city }}</p>
+      </td>
+      <td>
+        <p class="fw-bold mb-1">{{ address.state }}</p>
+      </td>
+
+      <td>
+        <button
+          routerLink="/addresses/{{ address.id }}"
+          type="button"
+          class="btn btn-link btn-sm btn-rounded"
+        >
+          Atualizar
+        </button>
+        <button
+          (click)="remover(address.id)"
+          type="button"
+          class="btn btn-link btn-sm btn-rounded"
+        >
+          Remover
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

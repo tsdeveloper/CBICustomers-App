@@ -3,10 +3,17 @@
     <a class="navbar-brand" routerLink="/" routerLinkActive="active"
       >CBICustomers APP</a
     >
+    <ul class="navbar-nav me-auto">
+      <ng-container *ngIf="accountService.currentUser$ | async">
+          <li class="nav-item">
+              <a class="nav-link" routerLink='/addresses' routerLinkActive='active' >Meus Endereços ativos</a>
+          </li>
+      </ng-container>
+  </ul>
 
     <div
       class="dropdown"
-      *ngIf="accountService.currentClientEdit$ | async as user"
+      *ngIf="accountService.currentUser$ | async as user"
       dropdown
     >
       <a
@@ -22,7 +29,7 @@
     </div>
 
     <form
-      *ngIf="(accountService.currentClientEdit$ | async) === null"
+      *ngIf="(accountService.currentUser$ | async) === null"
       #loginForm="ngForm"
       class="d-flex mt-2 mt-md-0"
       (ngSubmit)="login()"

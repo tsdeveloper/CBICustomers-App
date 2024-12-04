@@ -1,13 +1,16 @@
-<div class="row" *ngIf="clientEdit">
+<div class="row">
   <div class="col-4">
-    <h1>Meu cadastro</h1>
+    <h1>Cadastrar Endereço</h1>
   </div>
   <div class="col-8">
-    <form [formGroup]="registerForm" (ngSubmit)="registerForm?.valid && update()" autocomplete="off">
-      <h2 class="text-center text-primary">Editar Profile</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="registerForm?.valid && register()" autocomplete="off">
+      <h2 class="text-center text-primary">Informações</h2>
       <hr>
-        <app-text-input label="Nome" formControlName="name" />
-        <app-text-input label="Email" formControlName="email" />
+        <app-text-input label="Endereço" formControlName="name" />
+        <app-text-input mask="00000-000" label="CEP" formControlName="zipCode" />
+        <app-text-input label="Cidade" formControlName="city" />
+        <app-text-input label="UF" formControlName="state" />
+
 
 
       @if (validationErrors) {

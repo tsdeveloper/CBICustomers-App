@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, Self } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { NgxMaskPipe, NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-text-input',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    CommonModule
+    CommonModule, NgxMaskPipe, NgxMaskDirective
   ],
   templateUrl: './text-input.component.html',
   styleUrls: ['./text-input.component.scss']
@@ -15,6 +16,7 @@ import { ControlValueAccessor, FormControl, NgControl, ReactiveFormsModule } fro
 export class TextInputComponent implements ControlValueAccessor {
   @Input() label = '';
   @Input() type = 'text';
+  @Input() mask!: string;
 
   constructor(@Self() public controlDir: NgControl) {
     this.controlDir.valueAccessor = this;

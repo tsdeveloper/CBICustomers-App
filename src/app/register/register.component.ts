@@ -1,10 +1,10 @@
 import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TextInputComponent } from '../_forms/text-input/text-input.component';
-import { Client, ClientEdit } from '../_models/client';
+import { Client } from '../_models/client';
 import { AccountService } from '../_services/account.service';
 
 @Component({
@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
 
   register() {
     this.accountService.register(this.registerForm.value).subscribe({
-      next: (res: ClientEdit) => {
+      next: (res: Client) => {
         this.accountService.setCurrentUserEdit(res);
         this.router.navigateByUrl(`account/${res.id}`);
       },

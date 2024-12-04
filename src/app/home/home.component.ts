@@ -2,13 +2,10 @@ import { AccountService } from './../_services/account.service';
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input, input, OnDestroy, OnInit } from '@angular/core';
 import { RegisterComponent } from '../register/register.component';
-import { RouterLink } from '@angular/router';
-import { ClientEdit } from '../_models/client';
-import { map, Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, RegisterComponent, RouterLink],
+  imports: [CommonModule, RegisterComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

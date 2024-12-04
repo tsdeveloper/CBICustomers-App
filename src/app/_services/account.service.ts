@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable, ReplaySubject, Subject, tap } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Client, ClientEdit } from '../_models/client';
+import { Client } from '../_models/client';
 import { environment } from '../../environments/environment.development';
 
 @Injectable({
@@ -11,19 +11,17 @@ export class AccountService {
 
   http = inject(HttpClient)
   private currentUserSource = new ReplaySubject<Client>(1);
-  private currentClientEditSource = new ReplaySubject<ClientEdit>(1);
-  baseUrl = environment.apiUrl;
   currentUser$ = this.currentUserSource.asObservable();
-  currentClientEdit$ = this.currentClientEditSource.asObservable();
+  baseUrl = environment.apiUrl;
   private visibleCancelRegister = new BehaviorSubject<boolean>(true);
   visibleCancelRegister$ = this.visibleCancelRegister.asObservable();
 
 constructor() { }
-login(values: any): Observable<ClientEdit> {
+login(values: any): Observable<Client> {
   let params = new HttpParams();
     params = params.append('useCookies', true);
-    return this.http.post<ClientEdit>(`${this.baseUrl}/account/login`, values).pipe(
-      map((user: ClientEdit) => {
+    return this.http.post<Client>(`${this.baseUrl}/account/login`, values).pipe(
+      map((user: Client) => {
         if (user) {
          this.setCurrentUserEdit(user);
          return user;
@@ -32,9 +30,9 @@ login(values: any): Observable<ClientEdit> {
     )
 }
 
-register(model: any): Observable<ClientEdit>  {
-  return this.http.post<ClientEdit>(`${this.baseUrl}/account/register`, model).pipe(
-    map((user: ClientEdit) => {
+register(model: any): Observable<Client>  {
+  return this.http.post<Client>(`${this.baseUrl}/account/register`, model).pipe(
+    map((user: Client) => {
       if (user) {
        this.setCurrentUserEdit(user);
        return user;
@@ -52,19 +50,14 @@ setCurrentUser(user: Client) {
   this.currentUserSource.next(user);
 }
 
-setCurrentUserEdit(user: ClientEdit) {
-  // user.roles = [];
-  // const roles = this.getDecodedToken(user.token).role;
-  // Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
+setCurrentUserEdit(user: Client) {
   localStorage.setItem('user', JSON.stringify(user));
-  this.currentClientEditSource.next(user);
+  this.currentUserSource.next(user);
 }
 
 logout() {
   localStorage.removeItem('user');
   this.currentUserSource.next(null);
-  this.currentClientEditSource.next(null);
-  // this.presence.stopHubConnection();
 }
 
 getDecodedToken(token: string) {
@@ -76,7 +69,7 @@ getClientById(id: string) {
 }
 
 getUserInfo() {
-  return this.http.get<ClientEdit>(`${this.baseUrl}/account/user-info`).pipe(
+  return this.http.get<Client>(`${this.baseUrl}/account/user-info`).pipe(
     map(user => {
       this.setCurrentUserEdit(user);
       return user;
@@ -84,9 +77,9 @@ getUserInfo() {
   )
 }
 
-update(model: ClientEdit): Observable<ClientEdit>  {
-  return this.http.put<ClientEdit>(`${this.baseUrl}/account/update`, model).pipe(
-    map((user: ClientEdit) => {
+update(model: Client): Observable<Client>  {
+  return this.http.put<Client>(`${this.baseUrl}/account/update`, model).pipe(
+    map((user: Client) => {
       if (user) {
        this.setCurrentUserEdit(user);
        return user;

@@ -2,7 +2,7 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../environments/environment.development';
-import { Client, ClientEdit } from '../_models/client';
+import { Client } from '../_models/client';
 import { AccountService } from '../_services/account.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -22,18 +22,16 @@ export class NavComponent {
   env = environment.apiUrl;
   loggedIn = false;
   @Input() client: Client;
-  @Input() clientEdit: ClientEdit;
   @Output() cancelRegister = new EventEmitter();
 
 
   login() {
     this.accountService.login(this.model).subscribe({
       next: (res) => {
+        console.log(`user ${JSON.stringify(res)}`);
         this.loggedIn = true;
-        // const client:ClientEdit = { id: "1", name: "Honda" };
         this.accountService.setCurrentUserEdit(res);
         this.accountService.setVisibleCancelRegister(false);
-        // this.router.navigate(['/account'], {queryParams: {id: res.id }});
         this.router.navigateByUrl(`/account/${res.id}`);
 
       },
